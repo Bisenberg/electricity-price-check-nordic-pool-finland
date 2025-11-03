@@ -14,7 +14,7 @@ except Exception as e:
     sys.exit(1)
     
 TELEGRAM_BOT_TOKEN = conf["TELEGRAM_BOT_TOKEN"]
-CHAT_ID = conf["CHAT_ID"]
+TELEGRAM_CHAT_ID = conf["TELEGRAM_CHAT_ID"]
 TIMEZONE = conf.get("TIMEZONE", "Europe/Helsinki")
 START_HOUR = int(conf.get("START_HOUR", 7))
 END_HOUR = int(conf.get("END_HOUR", 21))
@@ -49,7 +49,7 @@ def filter_prices(prices, start_hour, end_hour):
 
 def send_telegram_message(text):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    requests.post(url, data={"chat_id": CHAT_ID, "text": text}, timeout=10)
+    requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": text}, timeout=10)
 
 def format_price_line(index, dt, val):
     next_quarter = dt + datetime.timedelta(minutes=15)
