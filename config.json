@@ -1,6 +1,6 @@
 {
-    "TELEGRAM_BOT_TOKEN": "8363107194:AAGFu5aR-H0-eFTlZltd-Kg3ntEhABuVr-I",
-    "CHAT_ID": "177687670",
+    "TELEGRAM_BOT_TOKEN": "YOUR_TELEGRAM_TOKEN",
+    "CHAT_ID": "YOUR_CHAT_ID",
     "TIMEZONE": "Europe/Helsinki",
     "START_HOUR": 8,
     "END_HOUR": 21
