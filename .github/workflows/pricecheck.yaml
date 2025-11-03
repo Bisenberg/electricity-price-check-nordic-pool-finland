@@ -25,7 +25,7 @@ jobs:
         run: |
           echo '{
             "TELEGRAM_BOT_TOKEN": "${{ secrets.TELEGRAM_BOT_TOKEN }}",
-            "CHAT_ID": "${{ secrets.TELEGRAM_CHAT_ID }}",
+            "TELEGRAM_CHAT_ID": "${{ secrets.TELEGRAM_CHAT_ID }}",
             "TIMEZONE": "Europe/Helsinki",
             "START_HOUR": 8,
             "END_HOUR": 21
