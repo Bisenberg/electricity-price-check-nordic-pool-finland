@@ -2,9 +2,8 @@ name: Electricity Price Checker
 
 on:
   schedule:
-    # Runs every day at 08:00 Helsinki time (06:00 UTC)
     - cron: "0 4 * * *"
-  workflow_dispatch:  # allows manual run
+  workflow_dispatch:  
 
 jobs:
   run-bot:
