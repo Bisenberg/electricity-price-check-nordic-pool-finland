@@ -1,0 +1,5 @@
+[ma 03.11.2025 13.18.58,43] Starting 
+Looking for electricity prices.
+Lowest value: 1.54snt/kWh at 19:45 
+Sending message
+[ma 03.11.2025 13.18.59,09] Finising 
