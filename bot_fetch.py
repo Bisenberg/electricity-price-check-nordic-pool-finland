@@ -52,8 +52,39 @@ def send_telegram_message(text):
     requests.post(url, data={"chat_id": CHAT_ID, "text": text}, timeout=10)
 
 def format_price_line(index, dt, val):
-    next_hour = dt + datetime.timedelta(hours=1)
-    return f"{index}. {dt.strftime('%H:%M')}–{next_hour.strftime('%H:%M')}: {val:.2f} snt/kWh."
+    next_quarter = dt + datetime.timedelta(minutes=15)
+    return f"{index}. {dt.strftime('%H:%M')}–{next_quarter.strftime('%H:%M')}: {val:.2f} snt/kWh"
+
+
+
+def find_cheapest_hour(prices):
+
+    if len(prices) < 4:
+        return None, None
+
+    cheapest_block = None
+    cheapest_avg = float("inf")
+
+    for i in range(len(prices) - 3):
+        block = prices[i:i+4]
+        avg_price = sum(p[1] for p in block) / 4
+        if avg_price < cheapest_avg:
+            cheapest_avg = avg_price
+            cheapest_block = block
+
+    return cheapest_block, cheapest_avg
+
+def format_cheapest_hour(prices):
+
+    block, avg = find_cheapest_hour(prices)
+    if not block:
+        return None
+
+    start = block[0][0]
+    end = block[-1][0] + datetime.timedelta(minutes=15)
+    return "Cheapest 1-hour block: {}–{} ({:.2f} snt/kWh average)".format(
+        start.strftime("%H:%M"), end.strftime("%H:%M"), avg
+    )
 
 def main():
     tz = pytz.timezone(TIMEZONE)
@@ -80,6 +111,11 @@ def main():
     avg_price = sum(price for _, price in filtered) / len(filtered)
     lines.append("")
     lines.append(f"Average price today: {avg_price:.2f} snt/kWh")
+    
+    cheapest_hour_text = format_cheapest_hour(filtered)
+    if cheapest_hour_text:
+        lines.append("")
+        lines.append(cheapest_hour_text)
 
     message = "\n".join(lines)
     print(message)
