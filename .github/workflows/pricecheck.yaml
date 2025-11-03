@@ -1,0 +1,36 @@
+name: Electricity Price Checker
+
+on:
+  schedule:
+    # Runs every day at 08:00 Helsinki time (06:00 UTC)
+    - cron: "0 4 * * *"
+  workflow_dispatch:  # allows manual run
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create config.json
+        run: |
+          echo '{
+            "TELEGRAM_BOT_TOKEN": "${{ secrets.TELEGRAM_BOT_TOKEN }}",
+            "CHAT_ID": "${{ secrets.TELEGRAM_CHAT_ID }}",
+            "TIMEZONE": "Europe/Helsinki",
+            "START_HOUR": 8,
+            "END_HOUR": 21
+          }' > config.json
+
+      - name: Run price checker bot
+        run: python bot_fetch.py
